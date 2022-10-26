@@ -1,5 +1,7 @@
-import pandas as pd
 import folium
+import streamlit as st
+import pandas as pd
+from utils import clean_data
 
 class Jeu_Dpt:
     def __init__(self):
@@ -10,13 +12,13 @@ class Jeu_Dpt:
                                'Code Département',
                                'Commune',
                                'geo_point_2d']
-                 ).query(
-                    'Statut in ["Préfecture", "Préfecture de région"]'
-                 ).query('`Code Département` != 97')
+                 ).pipe(clean_data)
         self.historique = pd.read_csv(
             "data/historique.csv", 
             index_col=0
             )
+        self.code_list = self.geo['Code Département'].unique().tolist()
+        self.erreur = 0
 
     def _fit(self):
         fond = r'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png'
@@ -33,30 +35,27 @@ class Jeu_Dpt:
             ).add_to(self.carte)
     
     def _graph(self, Code):
+        from streamlit_folium import folium_static
         self._fit() #Initilisation de la carte
         loc = self.geo.loc[self.geo['Code Département']==Code, 'geo_point_2d'].to_list()[0]
         Commune = self.geo.loc[self.geo['Code Département']==Code, 'Commune'].tolist()[0]
         folium.Marker(
             [loc.split(',')[0], loc.split(',')[1]], popup=f"{Code} : {Commune}"
             ).add_to(self.carte)
+        #folium_static(self.carte)
         display(self.carte)
+    def _verification(self, Code, Commune_joueur):
+        Commune = self.geo.loc[self.geo['Code Département']==Code, 'Commune'].tolist()[0]
+        self.code_list.remove(Code)
+        if Commune_joueur.lower() != Commune.lower():
+            print(f"ERROR : La préfécture est {Commune.lower()}")
+            self.erreur +=1
+            self.historique.loc[Code,'Erreur']+=1
+            return True
+        else:
+            self.historique.loc[Code,'Correct']+=1
+            return False
 
-    def play(self, graph = True, nb_tour=20):
-        import random
-        erreur = 0
-        code_list = self.geo['Code Département'].unique().tolist()
-        for i in range(nb_tour):
-            Code = random.choice(code_list)
-            code_list.remove(Code)
-            Commune = self.geo.loc[self.geo['Code Département']==Code, 'Commune'].tolist()[0]
-            Commune_joueur = input(f"Quelle est la préfécture associé au numéro de département {Code} : ")
-            if Commune_joueur.lower() != Commune.lower():
-                print(f"ERROR : La préfécture est {Commune.lower()}")
-                erreur +=1
-                self.historique.loc[Code,'Erreur'] = self.historique.loc[Code,'Erreur'] + 1
-                if graph:
-                    _graph()
-            else:
-                self.historique.loc[Code,'Correct'] = self.historique.loc[Code,'Correct'] + 1
+    def main(self, Code, Commune_joueur, graph = True):
+        if (graph)&(self._verification(Code, Commune_joueur)): self._graph(Code)
         self.historique.to_csv("data/historique.csv")
-        print(f"Votre score est de {nb_tour-erreur}/{nb_tour}")
