@@ -1,6 +1,6 @@
 import folium
-import streamlit as st
 import pandas as pd
+import streamlit as st
 from utils import clean_data
 
 class Jeu_Dpt:
@@ -42,17 +42,18 @@ class Jeu_Dpt:
         folium.Marker(
             [loc.split(',')[0], loc.split(',')[1]], popup=f"{Code} : {Commune}"
             ).add_to(self.carte)
-        #folium_static(self.carte)
-        display(self.carte)
+        folium_static(self.carte)
+        #display(self.carte)
     def _verification(self, Code, Commune_joueur):
         Commune = self.geo.loc[self.geo['Code Département']==Code, 'Commune'].tolist()[0]
         self.code_list.remove(Code)
         if Commune_joueur.lower() != Commune.lower():
-            print(f"ERROR : La préfécture est {Commune.lower()}")
+            st.write(f"ERROR : La préfécture est {Commune.lower()}")
             self.erreur +=1
             self.historique.loc[Code,'Erreur']+=1
             return True
         else:
+            st.write("Bravo !")
             self.historique.loc[Code,'Correct']+=1
             return False
 
