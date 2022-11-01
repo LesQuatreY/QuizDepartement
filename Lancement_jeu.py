@@ -38,25 +38,23 @@ class Jeu_Dpt:
         from streamlit_folium import folium_static
         self._fit() #Initilisation de la carte
         loc = self.geo.loc[self.geo['Code Département']==Code, 'geo_point_2d'].to_list()[0]
-        Commune = self.geo.loc[self.geo['Code Département']==Code, 'Commune'].tolist()[0]
+        #Commune = self.geo.loc[self.geo['Code Département']==Code, 'Commune'].tolist()[0]
         folium.Marker(
-            [loc.split(',')[0], loc.split(',')[1]], popup=f"{Code} : {Commune}"
+            [loc.split(',')[0], loc.split(',')[1]], popup=f"{Code} : {self.Commune}"
             ).add_to(self.carte)
         folium_static(self.carte)
         #display(self.carte)
-    def _verification(self, Code, Commune_joueur):
-        Commune = self.geo.loc[self.geo['Code Département']==Code, 'Commune'].tolist()[0]
-        self.code_list.remove(Code)
-        if Commune_joueur.lower() != Commune.lower():
-            st.write(f"ERROR : La préfécture est {Commune.lower()}")
+    def verification(self, Code, Commune_joueur):
+        self.Commune = self.geo.loc[self.geo['Code Département']==Code, 'Commune'].tolist()[0]
+        #self.code_list.remove(Code)
+        if Commune_joueur.lower() != self.Commune.lower():
             self.erreur +=1
             self.historique.loc[Code,'Erreur']+=1
-            return True
-        else:
-            st.write("Bravo !")
-            self.historique.loc[Code,'Correct']+=1
             return False
+        else:
+            self.historique.loc[Code,'Correct']+=1
+            return True
 
     def main(self, Code, Commune_joueur, graph = True):
-        if (graph)&(self._verification(Code, Commune_joueur)): self._graph(Code)
+        if (graph)&(~self.verification(Code, Commune_joueur)): self._graph(Code)
         self.historique.to_csv("data/historique.csv")
