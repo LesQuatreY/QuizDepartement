@@ -38,15 +38,12 @@ class Jeu_Dpt:
         from streamlit_folium import folium_static
         self._fit() #Initilisation de la carte
         loc = self.geo.loc[self.geo['Code Département']==Code, 'geo_point_2d'].to_list()[0]
-        #Commune = self.geo.loc[self.geo['Code Département']==Code, 'Commune'].tolist()[0]
         folium.Marker(
             [loc.split(',')[0], loc.split(',')[1]], popup=f"{Code} : {self.Commune}"
             ).add_to(self.carte)
         folium_static(self.carte)
-        #display(self.carte)
     def verification(self, Code, Commune_joueur):
         self.Commune = self.geo.loc[self.geo['Code Département']==Code, 'Commune'].tolist()[0]
-        #self.code_list.remove(Code)
         if Commune_joueur.lower() != self.Commune.lower():
             self.erreur +=1
             self.historique.loc[Code,'Erreur']+=1
