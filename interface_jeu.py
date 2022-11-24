@@ -27,8 +27,9 @@ if ('random_list' in st.session_state) & (
     for tour in range(st.session_state['nb_tour']):
         if st.session_state['results'][tour] is None:
             Code = st.session_state['random_list'][tour]
+            dep_name = jeu.geo.loc[jeu.geo["Code Département"]==Code, "Département"].to_list()[0]
             st.session_state['commune_joueur'][tour] = st.text_input(
-                f"Quelle est la préfécture associé au numéro de département {Code} : ",
+                f"Quelle est la préfécture associé au numéro de département {Code} ({dep_name.title()}) :",
                 key = tour
                 )
             if st.session_state['commune_joueur'][tour] != "":
@@ -38,11 +39,6 @@ if ('random_list' in st.session_state) & (
                     st.write(f"ERROR : La préfécture est {jeu.Commune.lower()}")
                 else:
                     st.write("Bravo, c'est la bonne réponse.")
-
-if st.session_state['results'].count(None) in [0]:
-    print_results = st.checkbox('Afficher les résultats ?')
-    if print_results:
-        st.write(f"Votre score est de {st.session_state['results'].count(True)}/{st.session_state['nb_tour']}")
 
 rerun = st.checkbox("Voulez vous relancer ?")
 if rerun:
