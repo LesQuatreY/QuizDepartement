@@ -39,6 +39,7 @@ if ('random_list' in st.session_state) & (
                     st.write(f"ERROR : La préfécture est {jeu.Commune.lower()}")
                 else:
                     st.write("Bravo, c'est la bonne réponse.")
+    st.session_state["histo"] = jeu.historique
 
 rerun = st.checkbox("Voulez vous relancer ?")
 if rerun:
