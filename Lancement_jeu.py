@@ -11,6 +11,7 @@ class Jeu_Dpt:
                     usecols = ['Statut',
                                'Code Département',
                                'Commune',
+                               "Département",
                                'geo_point_2d']
                  ).pipe(clean_data)
         self.historique = pd.read_csv(
