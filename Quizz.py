@@ -44,3 +44,4 @@ rerun = st.checkbox("Voulez vous relancer ?")
 if rerun:
     for key in st.session_state.keys():
         del st.session_state[key]
+    st.experimental_rerun()
