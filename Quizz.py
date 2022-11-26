@@ -5,6 +5,7 @@ from Lancement_jeu import Jeu_Dpt
 
 st.title("Jeu des Départements")
 jeu = Jeu_Dpt()
+st.session_state["histo"] = jeu.historique
 
 if 'nb_tour' not in st.session_state:
     nb_tour = int(st.number_input('Nombre de tours :', value=0))
@@ -39,6 +40,7 @@ if ('random_list' in st.session_state) & (
                     st.write(f"ERROR : La préfécture est {jeu.Commune.lower()}")
                 else:
                     st.write("Bravo, c'est la bonne réponse.")
+    st.session_state["histo"] = jeu.historique
 
 rerun = st.checkbox("Voulez vous relancer ?")
 if rerun:
