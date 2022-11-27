@@ -40,7 +40,7 @@ class Jeu_Dpt:
         self._fit() #Initilisation de la carte
         loc = self.geo.loc[self.geo['Code Département']==Code, 'geo_point_2d'].to_list()[0]
         folium.Marker(
-            [loc.split(',')[0], loc.split(',')[1]], popup=f"{Code} : {self.Commune}"
+            [loc.split(',')[0], loc.split(',')[1]], popup=f"{Code} : {self.geo.loc[self.geo['Code Département']==Code, 'Commune'].tolist()[0]}"
             ).add_to(self.carte)
         folium_static(self.carte)
     def verification(self, Code, Commune_joueur):

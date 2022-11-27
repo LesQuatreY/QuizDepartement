@@ -13,13 +13,15 @@ else:
     st.write("Veuillez finir le quizz pour afficher votre score.")
 
 #Reprendre ses erreurs
-# st.write(
-#     st.session_state['random_list'][st.session_state['results']==True]
-#     )#[st.session_state['results']])
-# st.radio(
-#     label="Choisir les départements que vous souhaitez revoir",
-#     options=[st.session_state['random_list'][st.session_state['results']==True]]
-#     )
+code = st.radio(
+    label="Quel département voulez-vous revoir ?", options=[None]+st.session_state['random_list'],
+    horizontal = True
+    )
+if code:
+    from Lancement_jeu import Jeu_Dpt
+    jeu = Jeu_Dpt()
+    jeu._graph(code)   
+
 
 st.title("Affichage des statistiques")
 
