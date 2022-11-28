@@ -47,12 +47,12 @@ class Jeu_Dpt:
         self.Commune = self.geo.loc[self.geo['Code Département']==Code, 'Commune'].tolist()[0]
         if Commune_joueur.lower() != self.Commune.lower():
             self.erreur +=1
-            self.historique.loc[Code,'Erreur']+=1
             return False
         else:
-            self.historique.loc[Code,'Correct']+=1
             return True
 
     def main(self, Code, Commune_joueur, graph = True):
         if (graph)&(~self.verification(Code, Commune_joueur)): self._graph(Code)
+        if self.verification(Code, Commune_joueur): self.historique.loc[Code,'Correct']+=1
+        else:  self.historique.loc[Code,'Erreur']+=1
         self.historique.to_csv("data/historique.csv")
