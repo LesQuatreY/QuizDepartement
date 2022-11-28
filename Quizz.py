@@ -13,6 +13,7 @@ if 'nb_tour' not in st.session_state:
         st.session_state['nb_tour'] = nb_tour
         st.session_state['results'] = [None]*nb_tour
         st.session_state['commune_joueur'] = [None]*nb_tour
+        graph=not st.checkbox("Retirer l'affichage des graphs", value=False)
     else:
         st.stop()
 
@@ -35,14 +36,14 @@ if ('random_list' in st.session_state) & (
                 )
             if st.session_state['commune_joueur'][tour] != "":
                 st.session_state['results'][tour] = jeu.verification(Code, st.session_state['commune_joueur'][tour])
-                jeu.main(Code, st.session_state['commune_joueur'][tour])
+                jeu.main(Code, st.session_state['commune_joueur'][tour], graph=graph)
                 if not st.session_state['results'][tour]:
                     st.write(f"ERROR : La préfécture est {jeu.Commune.lower()}")
                 else:
                     st.write("Bravo, c'est la bonne réponse.")
     st.session_state["histo"] = jeu.historique
 
-rerun = st.checkbox("Voulez vous relancer ?")
+rerun = st.button("Relancer")
 if rerun:
     for key in st.session_state.keys():
         del st.session_state[key]
