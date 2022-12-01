@@ -17,9 +17,10 @@ if 'nb_tour' not in st.session_state:
         st.session_state['nb_tour'] = nb_tour
         st.session_state['results'] = [None]*nb_tour
         st.session_state['commune_joueur'] = [None]*nb_tour
-        st.session_state['graph']=not st.checkbox("Retirer l'affichage des graphs", value=False)
     else:
         st.stop()
+
+st.session_state['graph']=not st.checkbox("Retirer l'affichage des graphs")
 
 if ('random_list' not in st.session_state) & ('nb_tour' in st.session_state):
     random_list = random.sample(jeu.code_list, st.session_state['nb_tour'])
