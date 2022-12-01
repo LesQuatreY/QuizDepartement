@@ -9,3 +9,16 @@ def clean_data(data):
                 "-1ER-ARRONDISSEMENT", ""
             )
             )
+
+def read_historique():
+    import pandas as pd
+    try: 
+        pd.read_csv(
+            "data/historique.csv", 
+            index_col=0
+            )
+    except: return None
+    return pd.read_csv(
+            "data/historique.csv", 
+            index_col=0
+            )

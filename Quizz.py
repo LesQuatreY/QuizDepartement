@@ -5,6 +5,10 @@ from Lancement_jeu import Jeu_Dpt
 
 st.title("Jeu des Départements")
 jeu = Jeu_Dpt()
+
+if jeu.init_historique() is None: 
+    st.write("Erreur, vous n'avez pas de fichier historique !!")
+    st.stop()
 st.session_state["histo"] = jeu.historique
 
 if 'nb_tour' not in st.session_state:

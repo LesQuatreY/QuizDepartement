@@ -1,7 +1,6 @@
 import folium
 import pandas as pd
-import streamlit as st
-from utils import clean_data
+from utils import (clean_data, read_historique)
 
 class Jeu_Dpt:
     def __init__(self):
@@ -14,12 +13,13 @@ class Jeu_Dpt:
                                "Département",
                                'geo_point_2d']
                  ).pipe(clean_data)
-        self.historique = pd.read_csv(
-            "data/historique.csv", 
-            index_col=0
-            )
         self.code_list = self.geo['Code Département'].unique().tolist()
         self.erreur = 0
+
+    def init_historique(self):
+        self.historique = read_historique()
+        if self.historique is None: return None
+        return True
 
     def _fit(self):
         fond = r'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png'
