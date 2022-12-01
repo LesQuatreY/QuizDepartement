@@ -32,7 +32,7 @@ class Jeu_Dpt:
         self.carte.save("data/image.html")
         folium.Choropleth(
             "data/contour-des-departements.geojson",
-            fill_color='yellow'
+            fill_color='white'
             ).add_to(self.carte)
     
     def _graph(self, Code):
@@ -45,14 +45,13 @@ class Jeu_Dpt:
         folium_static(self.carte)
     def verification(self, Code, Commune_joueur):
         self.Commune = self.geo.loc[self.geo['Code Département']==Code, 'Commune'].tolist()[0]
-        if Commune_joueur.lower() != self.Commune.lower():
-            self.erreur +=1
-            return False
-        else:
-            return True
+        if Commune_joueur.lower() != self.Commune.lower(): return False
+        else: return True
 
     def main(self, Code, Commune_joueur, graph = True):
         if (graph)&(~self.verification(Code, Commune_joueur)): self._graph(Code)
         if self.verification(Code, Commune_joueur): self.historique.loc[Code,'Correct']+=1
-        else:  self.historique.loc[Code,'Erreur']+=1
+        else:  
+            self.historique.loc[Code,'Erreur']+=1
+            self.erreur +=1
         self.historique.to_csv("data/historique.csv")
