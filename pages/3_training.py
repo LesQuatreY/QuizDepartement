@@ -2,7 +2,11 @@ import streamlit as st
 
 from Lancement_jeu import Jeu_Dpt
 
-st.title("Entraînement :")
+st.markdown(
+    '<div align="center"> <h1 align="center">Entraînement</h1> </div>',
+    unsafe_allow_html=True
+    )
+
 jeu = Jeu_Dpt()
 
 options = st.selectbox(
@@ -14,8 +18,12 @@ if not input: st.stop()
     
 try:
     if options=="Numéro de département":
+        Commune = jeu.geo.loc[jeu.geo["Code Département"]==input,"Commune"].to_list()[0]
+        st.markdown(
+            "<div style='text-align:center'> La commune est {}.</div>".format(Commune.title()),
+            unsafe_allow_html=True
+            )
         jeu._graph(input)
-        st.write(f"La commune est {jeu.Commune.title()}.")
 except:
     st.write("La valeur entrée ne correspond à aucun numéro de département !!")
 

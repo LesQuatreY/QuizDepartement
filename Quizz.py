@@ -3,11 +3,15 @@ import streamlit as st
 
 from Lancement_jeu import Jeu_Dpt
 
-st.title("Jeu des Départements")
+st.markdown(
+    '<div align="center"> <h1 align="center">Jeu des Départements</h1> </div>',
+    unsafe_allow_html=True
+    )
+
 jeu = Jeu_Dpt()
 
 if jeu.init_historique() is None: 
-    st.write("Erreur, vous n'avez pas de fichier historique !!")
+    st.markdown(":x: Erreur, vous n'avez pas de fichier historique !! :x:")
     st.stop()
 st.session_state["histo"] = jeu.historique
 
@@ -42,9 +46,9 @@ if ('random_list' in st.session_state) & (
             if st.session_state['commune_joueur'][tour] != "":
                 st.session_state['results'][tour] = jeu.verification(Code, st.session_state['commune_joueur'][tour])
                 if not st.session_state['results'][tour]:
-                    st.write(f"ERROR : La préfécture est {jeu.Commune.title()}")
+                    st.markdown(f":x: ERROR : La préfécture est {jeu.Commune.title()}")
                 else:
-                    st.write("Bravo, c'est la bonne réponse.")
+                    st.markdown(":white_check_mark: Bravo, c'est la bonne réponse.")
                 if (st.session_state['results'][tour])&(st.session_state['graph']):
                     with st.spinner("Chargement de la map :"):
                         jeu.main(Code, st.session_state['commune_joueur'][tour], graph=st.session_state['graph'])

@@ -1,7 +1,10 @@
 import streamlit as st
 import plotly.express as px
 
-st.title("Affichage des statistiques")
+st.markdown(
+    '<div align="center"> <h1 align="center">Affichage des statistiques</h1> </div>',
+    unsafe_allow_html=True
+    )
 
 histo = st.session_state["histo"]
 
@@ -34,7 +37,7 @@ st.plotly_chart(
 )
 
 #Affichage du nombre de communes considérées comme acquises
-nb_acquis=histo[histo["Correct"]>histo["Erreur"]].shape[0]
+nb_acquis=((histo["Correct"]>histo["Erreur"])).sum() #&(histo["Correct"]>2) 
 pct_acquis=nb_acquis/histo.shape[0]
 st.markdown(
     "Nombre de communes acquises : {} ({:.0%})".format(nb_acquis, pct_acquis)

@@ -1,7 +1,9 @@
 import streamlit as st
-import plotly.express as px
 
-st.title("Affichage des résultats du quizz")
+st.markdown(
+    '<div align="center"> <h1 align="center">Affichage des résultats du quizz</h1> </div>',
+    unsafe_allow_html=True
+    )
 
 histo = st.session_state["histo"]
 
@@ -10,15 +12,24 @@ if "results" not in st.session_state:
     st.session_state['results'] = [None]
 
 if st.session_state['results'].count(None)==0:
-    st.write(f"Votre score est de {st.session_state['results'].count(True)}/{st.session_state['nb_tour']}.")
+    color="green" if st.session_state['results'].count(True)/st.session_state['nb_tour']>.5 else "red"
+    st.markdown(
+        f"<div style='text-align:center';> <span style='font-size:50px;color:{color};'>{st.session_state['results'].count(True)}/{st.session_state['nb_tour']}</span></div>",
+        unsafe_allow_html=True
+        )
     #Reprendre ses erreurs
     code = st.radio(
-        label="Quel département voulez-vous revoir ?", options=[None]+st.session_state['random_list'],
+        label="Quel département souhaitez-vous revoir ?", options=[None]+st.session_state['random_list'],
         horizontal = True
         )
     if code:
         from Lancement_jeu import Jeu_Dpt
         jeu = Jeu_Dpt()
+        Commune = jeu.geo.loc[jeu.geo["Code Département"]==code,"Commune"].to_list()[0]
+        st.markdown(
+            "<div style='text-align:center'> La préfécture du {} est {}.</div>".format(code, Commune.title()),
+            unsafe_allow_html=True
+            )
         jeu._graph(code)  
 else:
     st.write("Veuillez finir le quizz pour afficher votre score et revoir vos erreurs.")
