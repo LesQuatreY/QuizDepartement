@@ -1,7 +1,7 @@
 import streamlit as st
 
 st.markdown(
-    '<div align="center"> <h1 align="center">Affichage des résultats du quizz</h1> </div>',
+    '<div align="center"> <h1 align="center">Affichage du résultat du quizz</h1> </div>',
     unsafe_allow_html=True
     )
 
@@ -20,7 +20,7 @@ if st.session_state['results'].count(None)==0:
     #Reprendre ses erreurs
     code = st.radio(
         label="Quel département souhaitez-vous revoir ?", options=[None]+st.session_state['random_list'],
-        horizontal = True
+        horizontal=True
         )
     if code:
         from Lancement_jeu import Jeu_Dpt
@@ -32,5 +32,6 @@ if st.session_state['results'].count(None)==0:
             )
         jeu._graph(code)  
 else:
-    st.write("Veuillez finir le quizz pour afficher votre score et revoir vos erreurs.")
- 
+    st.markdown(
+        "<span style='font-size:25px;color:red;'> Veuillez finir le quizz pour afficher votre score et revoir vos erreurs.</span>",
+        unsafe_allow_html=True)

@@ -47,8 +47,9 @@ class Jeu_Dpt:
 
     def verification(self, Code, Commune_joueur):
         self.Commune = self.geo.loc[self.geo['Code Département']==Code, 'Commune'].tolist()[0]
-        if Commune_joueur.lower() != self.Commune.lower(): return False
-        else: return True
+        if (Commune_joueur.lower() == self.Commune.lower()) | (Commune_joueur.lower() == self.Commune.lower().replace("-", " ")): 
+            return True
+        else: return False
 
     def main(self, Code, Commune_joueur, graph = True):
         if (graph)&(~self.verification(Code, Commune_joueur)): self._graph(Code)
