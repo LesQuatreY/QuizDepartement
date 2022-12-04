@@ -25,18 +25,18 @@ try:
             )
         jeu._graph(input)
 except:
-    st.write("La valeur entrée ne correspond à aucun numéro de département !!")
+    st.markdown(":x: La valeur entrée ne correspond à aucun numéro de département !! :x:")
 
 try:
     if options=="Nom de la commune":
         code_input=jeu.geo.loc[jeu.geo["Commune"]==input.upper(), "Code Département"].to_list()[0]
         jeu._graph(code_input)
 except:
-    st.write("La valeur entrée ne correspond à aucune préfecture !!")
+    st.markdown(":x: La valeur entrée ne correspond à aucune préfecture !! :x:")
 
 try:
     if options=="Nom du département":
         code_input=jeu.geo.loc[jeu.geo["Département"]==input.upper(), "Code Département"].to_list()[0]
         jeu._graph(code_input)
 except:
-    st.write("La valeur entrée ne correspond à aucun nom de département !!")
+    st.markdown(":x: La valeur entrée ne correspond à aucun nom de département !! :x:")
