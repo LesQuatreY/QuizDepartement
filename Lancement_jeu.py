@@ -12,15 +12,28 @@ class Jeu_Dpt:
                                'Commune',
                                "Département",
                                'geo_point_2d']
-                 ).pipe(clean_data)
-        self.code_list = self.geo['Code Département'].unique().tolist()
+                 ).pipe(clean_data).set_index("Code Département")
+        self.code_list = self.geo.index.tolist()
         self.erreur = 0
 
     def init_historique(self):
         self.historique = read_historique()
         if self.historique is None: return None
         return True
+    
+    def get_with_code(self, code, col):
+        return self.geo.loc[code, col]
 
+    def get_with_commune(self, commune, col):
+        if col=="Code Département":
+            return self.geo.loc[self.geo["Commune"]==commune.upper()].index[0]
+        return self.geo.loc[self.geo["Commune"]==commune.upper(), col].to_list()[0]
+
+    def get_with_departement(self, dep, col):
+        if col=="Code Département":
+            return self.geo.loc[self.geo["Département"]==dep.upper()].index[0]
+        return self.geo.loc[self.geo["Département"]==dep.upper(), col].to_list()[0]
+        
     def _fit(self):
         fond = r'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png'
         self.carte = folium.Map(
@@ -38,15 +51,17 @@ class Jeu_Dpt:
     def _graph(self, Code):
         from streamlit_folium import folium_static
         self._fit() #Initilisation de la carte
-        loc = self.geo.loc[self.geo['Code Département']==Code, 'geo_point_2d'].to_list()[0]
-        self.Commune=self.geo.loc[self.geo['Code Département']==Code, 'Commune'].tolist()[0]
         folium.Marker(
-            [loc.split(',')[0], loc.split(',')[1]], popup=f"{Code} : {self.Commune}"
+            [
+                self.get_with_code(Code,"geo_point_2d").split(',')[0], 
+                self.get_with_code(Code,"geo_point_2d").split(',')[1]
+                ], 
+            popup="{} : {}".format(Code,self.get_with_code(Code, "Commune"))
             ).add_to(self.carte)
         folium_static(self.carte)
 
     def verification(self, Code, Commune_joueur):
-        self.Commune = self.geo.loc[self.geo['Code Département']==Code, 'Commune'].tolist()[0]
+        self.Commune = self.get_with_code(Code, "Commune")
         if (Commune_joueur.lower() == self.Commune.lower()) | (Commune_joueur.lower() == self.Commune.lower().replace("-", " ")): 
             return True
         else: return False

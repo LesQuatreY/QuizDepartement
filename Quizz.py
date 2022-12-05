@@ -38,7 +38,7 @@ if ('random_list' in st.session_state) & (
     for tour in range(st.session_state['nb_tour']):
         if st.session_state['results'][tour] is None:
             Code = st.session_state['random_list'][tour]
-            dep_name = jeu.geo.loc[jeu.geo["Code Département"]==Code, "Département"].to_list()[0]
+            dep_name = jeu.get_with_code(Code, "Département")
             st.session_state['commune_joueur'][tour] = st.text_input(
                 f"Quelle est la préfécture associé au numéro de département {Code} ({dep_name.title()}) :",
                 key = tour

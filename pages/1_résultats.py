@@ -26,9 +26,10 @@ if st.session_state['results'].count(None)==0:
     if code:
         from Lancement_jeu import Jeu_Dpt
         jeu = Jeu_Dpt()
-        Commune = jeu.geo.loc[jeu.geo["Code Département"]==code,"Commune"].to_list()[0]
+        Commune = jeu.get_with_code(code,"Commune")
+        dep_name = jeu.get_with_code(code, "Département")
         st.markdown(
-            "<div style='text-align:center'> La préfécture du {} est {}.</div>".format(code, Commune.title()),
+            "<div style='text-align:center'> La préfécture du {} est {} ({}).</div>".format(code, Commune.title(), dep_name.title()),
             unsafe_allow_html=True
             )
         jeu._graph(code)  

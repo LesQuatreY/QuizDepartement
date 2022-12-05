@@ -18,7 +18,7 @@ if not input: st.stop()
     
 try:
     if options=="Numéro de département":
-        Commune = jeu.geo.loc[jeu.geo["Code Département"]==input,"Commune"].to_list()[0]
+        Commune = jeu.get_with_code(input, "Commune")
         st.markdown(
             "<div style='text-align:center'> La commune est {}.</div>".format(Commune.title()),
             unsafe_allow_html=True
@@ -29,14 +29,14 @@ except:
 
 try:
     if options=="Nom de la commune":
-        code_input=jeu.geo.loc[jeu.geo["Commune"]==input.upper(), "Code Département"].to_list()[0]
+        code_input=jeu.get_with_commune(input.upper(), "Code Département")
         jeu._graph(code_input)
 except:
     st.markdown(":x: La valeur entrée ne correspond à aucune préfecture !! :x:")
 
 try:
     if options=="Nom du département":
-        code_input=jeu.geo.loc[jeu.geo["Département"]==input.upper(), "Code Département"].to_list()[0]
+        code_input=jeu.get_with_departement(input.upper(), "Code Département")
         jeu._graph(code_input)
 except:
     st.markdown(":x: La valeur entrée ne correspond à aucun nom de département !! :x:")
