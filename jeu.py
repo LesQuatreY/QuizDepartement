@@ -14,7 +14,7 @@ class Jeu_Dpt:
                                'geo_point_2d']
                  ).pipe(clean_data).set_index("Code Département")
         if not read_historique():
-            self.historique=self.geo.assign(Correct=0).assign(Erreur=0)[["Correct","Erreur"]]
+            self.historique=self.geo.assign(Correct=0).assign(Erreur=0)[["Commune","Correct","Erreur"]]
         else:
             self.historique=pd.read_csv("data/historique.csv", index_col=0)
         self.code_list = self.geo.index.tolist()

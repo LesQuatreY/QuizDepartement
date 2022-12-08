@@ -10,7 +10,7 @@ st.markdown(
 
 jeu = Jeu_Dpt()
 
-st.session_state["histo"] = jeu.historique.join(jeu.geo[['Commune']])
+st.session_state["histo"] = jeu.historique
 
 if 'nb_tour' not in st.session_state:
     nb_tour = int(st.number_input('Nombre de tours :', value=0))
