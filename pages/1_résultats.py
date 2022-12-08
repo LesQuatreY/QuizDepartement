@@ -13,9 +13,9 @@ if "results" not in st.session_state:
 
 if st.session_state['results'].count(None)==0:
     color = "green" if st.session_state['results'].count(True)/st.session_state['nb_tour']>.5 else "red"
-    smiley = ":clap:" if st.session_state['results'].count(True)/st.session_state['nb_tour']==1 else ""
+    smiley = "&#128079" if st.session_state['results'].count(True)/st.session_state['nb_tour']==1 else ""
     st.markdown(
-        f"<div style='text-align:center';> <span style='font-size:50px;color:{color};'>{smiley}{st.session_state['results'].count(True)}/{st.session_state['nb_tour']}{smiley}</span></div>",
+        f"<div style='text-align:center';> <span style='font-size:50px;color:{color};'> {smiley} {st.session_state['results'].count(True)}/{st.session_state['nb_tour']} {smiley}</span></div>",
         unsafe_allow_html=True
         )
     #Reprendre ses erreurs
