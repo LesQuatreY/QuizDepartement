@@ -24,7 +24,7 @@ if st.session_state['results'].count(None)==0:
         horizontal=True
         )
     if code:
-        from Lancement_jeu import Jeu_Dpt
+        from jeu import Jeu_Dpt
         jeu = Jeu_Dpt()
         Commune = jeu.get_with_code(code,"Commune")
         dep_name = jeu.get_with_code(code, "Département")

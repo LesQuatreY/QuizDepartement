@@ -17,8 +17,5 @@ def read_historique():
             "data/historique.csv", 
             index_col=0
             )
-    except: return None
-    return pd.read_csv(
-            "data/historique.csv", 
-            index_col=0
-            )
+        return True
+    except: return False

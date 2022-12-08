@@ -1,6 +1,6 @@
 import streamlit as st
 
-from Lancement_jeu import Jeu_Dpt
+from jeu import Jeu_Dpt
 
 st.markdown(
     '<div align="center"> <h1 align="center">Entraînement</h1> </div>',

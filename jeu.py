@@ -13,13 +13,12 @@ class Jeu_Dpt:
                                "Département",
                                'geo_point_2d']
                  ).pipe(clean_data).set_index("Code Département")
+        if not read_historique():
+            self.historique=self.geo.assign(Correct=0).assign(Erreur=0)[["Correct","Erreur"]]
+        else:
+            self.historique=pd.read_csv("data/historique.csv", index_col=0)
         self.code_list = self.geo.index.tolist()
         self.erreur = 0
-
-    def init_historique(self):
-        self.historique = read_historique()
-        if self.historique is None: return None
-        return True
     
     def get_with_code(self, code, col):
         return self.geo.loc[code, col]
@@ -65,6 +64,10 @@ class Jeu_Dpt:
         if (Commune_joueur.lower() == self.Commune.lower()) | (Commune_joueur.lower() == self.Commune.lower().replace("-", " ")): 
             return True
         else: return False
+    
+    def _save_histo(self):
+        if read_historique():
+            self.historique.to_csv("data/historique.csv")
 
     def main(self, Code, Commune_joueur, graph = True):
         if (graph)&(~self.verification(Code, Commune_joueur)): self._graph(Code)
@@ -72,4 +75,4 @@ class Jeu_Dpt:
         else:  
             self.historique.loc[Code,'Erreur']+=1
             self.erreur +=1
-        self.historique.to_csv("data/historique.csv")
+        self._save_histo()
