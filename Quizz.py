@@ -6,8 +6,8 @@ from jeu import Jeu_Dpt
 st.markdown(
     '<div align="center"> <h1 align="center">Jeu des Départements</h1> </div>',
     unsafe_allow_html=True
-    )
-
+     )
+ 
 jeu = Jeu_Dpt()
 
 st.session_state["histo"] = jeu.historique
