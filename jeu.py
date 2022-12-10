@@ -60,7 +60,9 @@ class Jeu_Dpt:
         folium_static(self.carte)
 
     def verification(self, Code, Commune_joueur):
+        import unidecode
         self.Commune = self.get_with_code(Code, "Commune")
+        Commune_joueur = unidecode.unidecode(Commune_joueur)
         if (Commune_joueur.lower() == self.Commune.lower()) | (Commune_joueur.lower() == self.Commune.lower().replace("-", " ")): 
             return True
         else: return False
