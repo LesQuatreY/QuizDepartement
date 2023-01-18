@@ -4,7 +4,7 @@ Notes d'utilisation
 ------------------------------------------------------------------------------------------------------------------
 - L'application permet de lancer un quizz sur interface web permettant de tester ses connaissances sur les préféctures. 
 Elle nous demande le nom de la préfécture associé à un numéro de département.
-- Pour lancer le programme : utiliser la commande **python -m streamlit run Quizz.py**
+- Pour lancer le programme : utiliser la commande **python -m streamlit run Quizz.py** ou bien se connecter à https://lesquatrey-jeu-d-partement-quizz-xjp44a.streamlit.app/
 
 Notes d'installation
 ------------------------------------------------------------------------------------------------------------------
