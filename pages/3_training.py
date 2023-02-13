@@ -1,11 +1,26 @@
+import config
 import streamlit as st
 
 from jeu import Jeu_Dpt
 
-st.markdown(
-    '<div align="center"> <h1 align="center">Entraînement</h1> </div>',
-    unsafe_allow_html=True
-    )
+# Configuration de la page
+st.set_page_config(
+    page_title="Entraînement",
+    layout="wide",
+    initial_sidebar_state="expanded",
+    page_icon="🧠",
+    menu_items={
+    'Get Help': 'mailto:tanguy.minot@laposte.net',
+    'About': "Quizz by Tanguy Minot! 🧑‍💻"
+    }
+)
+
+#Affichage d'un titre
+st.title("🧠 Entraînement")
+
+# Configuration avec des styles CSS pour les différents background
+st.markdown('<style>{}</style>'.format(config.secondary_pages_background), unsafe_allow_html=True)
+st.markdown('<style>{}</style>'.format(config.sidebar_background), unsafe_allow_html=True)
 
 jeu = Jeu_Dpt()
 
@@ -20,7 +35,7 @@ try:
     if options=="Numéro de département":
         Commune = jeu.get_with_code(input, "Commune")
         st.markdown(
-            "<div style='text-align:center'> La commune est {}.</div>".format(Commune.title()),
+            "<div style='text-align:center'> La préfecture est {}.</div>".format(Commune.title()),
             unsafe_allow_html=True
             )
         jeu._graph(input)

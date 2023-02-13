@@ -1,9 +1,24 @@
+import config
 import streamlit as st
 
-st.markdown(
-    '<div align="center"> <h1 align="center">Affichage du résultat du quizz</h1> </div>',
-    unsafe_allow_html=True
-    )
+# Configuration de la page
+st.set_page_config(
+    page_title="Résultats",
+    layout="wide",
+    initial_sidebar_state="expanded",
+    page_icon="📝",
+    menu_items={
+    'Get Help': 'mailto:tanguy.minot@laposte.net',
+    'About': "Quizz by Tanguy Minot! 🧑‍💻"
+    }
+)
+
+#Affichage d'un titre
+st.title("📝 Résultats du Quizz")
+
+# Configuration avec des styles CSS pour les différents background
+st.markdown('<style>{}</style>'.format(config.secondary_pages_background), unsafe_allow_html=True)
+st.markdown('<style>{}</style>'.format(config.sidebar_background), unsafe_allow_html=True)
 
 histo = st.session_state["histo"]
 
@@ -34,6 +49,4 @@ if st.session_state['results'].count(None)==0:
             )
         jeu._graph(code)  
 else:
-    st.markdown(
-        "<span style='font-size:25px;color:red;'> Veuillez finir le quizz pour afficher votre score et revoir vos erreurs.</span>",
-        unsafe_allow_html=True)
+    st.info("Veuillez finir le quizz pour afficher votre score et revoir vos erreurs.")
