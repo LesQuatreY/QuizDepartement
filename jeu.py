@@ -34,10 +34,10 @@ class Jeu_Dpt:
         return self.geo.loc[self.geo["Département"]==dep.upper(), col].to_list()[0]
         
     def _fit(self):
-        fond = r'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png'
+        fond = r'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}'
         self.carte = folium.Map(
             location=[46.5, 2.3], 
-            zoom_start=6, 
+            zoom_start=5.6, 
             tiles=fond, 
             attr='© OpenStreetMap © CartoDB'
             )
